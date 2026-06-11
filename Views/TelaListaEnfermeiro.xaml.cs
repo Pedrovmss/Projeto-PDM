@@ -1,18 +1,18 @@
-using appClassePessoaBD.Model;
+using appProvaA1Enfermeiro.Model;
 using System.Collections.ObjectModel;
 
-namespace appClassePessoaBD.Views;
+namespace appProvaA1Enfermeiro.Views;
 
-public partial class TelaListaPessoa : ContentPage
+public partial class TelaListaEnfermeiro : ContentPage
 {
     /*
-     * A ObservableCollection é uma classe que armazena um array de objetos do tipo de Pessoa.
+     * A ObservableCollection é uma classe que armazena um array de objetos do tipo de Enfermeiro.
      * Utilizamos essa classe quando estamos apresentando um array de objetos ao usuário. Diferencial
      * dessa classe é que toda vez que um item é add, removido ou modificado no array de objetos a interface
      * gráfica também é atualizada. Assim as modificações feitas no array sempre estão atualizadas para o usuário.
      */
-    ObservableCollection<Pessoa> listagemPessoas = new ObservableCollection<Pessoa>();
-    public TelaListaPessoa()
+    ObservableCollection<Enfermeiro> listagemEnfermeiros = new ObservableCollection<Enfermeiro>();
+    public TelaListaEnfermeiro()
     {
         InitializeComponent();
         /*
@@ -20,23 +20,23 @@ public partial class TelaListaPessoa : ContentPage
         * definida acima. Fazendo essa definição no construtor estamos amarrando a fonte de dados da ListView assim
         * que ela é criada.
         */
-        lstPessoas.ItemsSource = listagemPessoas;
+        lstEnfermeiros.ItemsSource = listagemEnfermeiros;
     }
     /*
      * Tratamento do evento de clique no ToolBarItem que fará a navegação da tela de listagem 
-     * até a tela de cadastro de nova Pessoa. A navegação está envolvida em um try catch
+     * até a tela de cadastro de novo Enfermeiro. A navegação está envolvida em um try catch
      * e se algum problema acontecer a mensagem da exceção será mostrada ao usuário via DisplayAlert
      */
-    private async void irTelaIncluirPessoa(object sender, EventArgs e)
+    private async void irTelaIncluirEnfermeiro(object sender, EventArgs e)
     {
         try
         {
-            Navigation.PushAsync(new TelaIncluirPessoa());
+            Navigation.PushAsync(new TelaIncluirEnfermeiro());
 
         }
         catch (Exception ex)
         {
-            await DisplayAlert("Erro no Cadastro da Pessoa !!!!", ex.Message, "OK");
+            await DisplayAlert("Erro no Cadastro do Enfermeiro !!!!", ex.Message, "OK");
         }
     }
     /*
@@ -46,9 +46,9 @@ public partial class TelaListaPessoa : ContentPage
     {
         try
         {
-            listagemPessoas.Clear();
-            List<Pessoa> temp = await App.Database.GetAll();
-            temp.ForEach(i => listagemPessoas.Add(i));
+            listagemEnfermeiros.Clear();
+            List<Enfermeiro> temp = await App.Database.GetAll();
+            temp.ForEach(i => listagemEnfermeiros.Add(i));
         }
         catch (Exception ex)
         {
@@ -59,7 +59,7 @@ public partial class TelaListaPessoa : ContentPage
      * Trata o evento Clicked do MenuItem da ViewCell.ContextActions perguntando ao usuário
      * se ele realmente deseja remover aquele item do arquivo db3
      */
-    private async void excluirPessoa(object sender, EventArgs e)
+    private async void excluirEnfermeiro(object sender, EventArgs e)
     {
         try
         {
@@ -68,30 +68,30 @@ public partial class TelaListaPessoa : ContentPage
              */
             MenuItem itemSelecionado = sender as MenuItem;
             /*
-            * Obtendo qual foi a Pessoa que estava anexada no BindingContext
+            * Obtendo qual foi a Enfermeiro que estava anexada no BindingContext
             */
-            Pessoa pessoaSelecionada = itemSelecionado.BindingContext as Pessoa;
+            Enfermeiro enfermeiroSelecionado = itemSelecionado.BindingContext as Enfermeiro;
             /*
             * Perguntando ao usuário se ele realmente deseja remover. Note o await para aguardar
             * a resposta do usuário antes de prosseguir com o código.
             */
-            bool confirmacao = await DisplayAlert("Tem Certeza que quer excluir a Pessoa?", $"Excluir {pessoaSelecionada.pesNome}", "Sim", "Não");
+            bool confirmacao = await DisplayAlert("Tem certeza que quer excluir o Enfermeiro?", $"Excluir {enfermeiroSelecionado.enfNome}", "Sim", "Não");
             if (confirmacao)
             {
                 /*
                  * Removendo o registro do db3 via método Delete da classe crudSQLite
                  */
-                await App.Database.Delete(pessoaSelecionada.pesID);
+                await App.Database.Delete(enfermeiroSelecionado.enfID);
                 /*
                  * Removendo o item da ObservableCollection também, que é automaticamente
                  * removida da visão do usuário na ListView.
                  */
-                listagemPessoas.Remove(pessoaSelecionada);
+                listagemEnfermeiros.Remove(enfermeiroSelecionado);
             }
         }
         catch (Exception ex)
         {
-            await DisplayAlert("Erro na Exclusão da Pessoa !!!!", ex.Message, "OK");
+            await DisplayAlert("Erro na Exclusão do Enfermeiro !!!!", ex.Message, "OK");
         }
     }
     /*
@@ -105,61 +105,61 @@ public partial class TelaListaPessoa : ContentPage
              * Obtendo o valor que foi digitado no Search
              */
             string busca = e.NewTextValue;
-            lstPessoas.IsRefreshing = true;
+            lstEnfermeiros.IsRefreshing = true;
             /*
             * Limpando a ObservableCollection antes de add os itens vindos da busca.
             */
-            listagemPessoas.Clear();
-            List<Pessoa> temp = await App.Database.Search(busca);
-            temp.ForEach(i => listagemPessoas.Add(i));
+            listagemEnfermeiros.Clear();
+            List<Enfermeiro> temp = await App.Database.Search(busca);
+            temp.ForEach(i => listagemEnfermeiros.Add(i));
         }
         catch (Exception ex)
         {
-            await DisplayAlert("Erro na Busca de Pessoas !!!!", ex.Message, "OK");
+            await DisplayAlert("Erro na Busca de Enfermeiros !!!!", ex.Message, "OK");
         }
         finally
         {
-            lstPessoas.IsRefreshing = false;
+            lstEnfermeiros.IsRefreshing = false;
         }
     }
     /*
      * Trata o evento ItemSelected da ListView navegando para a página de detalhes.
      */
-    private void lstPessoasItemSelected(object sender, SelectedItemChangedEventArgs e)
+    private void lstEnfermeirosItemSelected(object sender, SelectedItemChangedEventArgs e)
     {
         /*
-         * Forma contraída de definir o BindingContext da página TelaAlterarPessoa como sendo a
-         * Pessoa que foi selecionada na ListView (item da ListView) e em seguida já
+         * Forma contraída de definir o BindingContext da página TelaAlterarEnfermeiro como sendo a
+         * Enfermeiro que foi selecionada na ListView (item da ListView) e em seguida já
          * redirecionando na navegação.
          */
         try
         {
-            Pessoa pessoa1 = e.SelectedItem as Pessoa;
-            Navigation.PushAsync(new TelaAlterarPessoa
+            Enfermeiro enfermeiro1 = e.SelectedItem as Enfermeiro;
+            Navigation.PushAsync(new TelaAlterarEnfermeiro
             {
-                BindingContext = pessoa1,
+                BindingContext = enfermeiro1,
             });
         }
         catch (Exception ex)
         {
-            DisplayAlert("Erro Desconhecido na Seleção de Pessoa !!!!", ex.Message, "OK");
+            DisplayAlert("Erro Desconhecido na Seleção de Enfermeiro !!!!", ex.Message, "OK");
         }
     }
     private async void refCarregando(object sender, EventArgs e)
     {
         try
         {
-            listagemPessoas.Clear();
-            List<Pessoa> temp = await App.Database.GetAll();
-            temp.ForEach(i => listagemPessoas.Add(i));
+            listagemEnfermeiros.Clear();
+            List<Enfermeiro> temp = await App.Database.GetAll();
+            temp.ForEach(i => listagemEnfermeiros.Add(i));
         }
         catch (Exception ex)
         {
-            await DisplayAlert("Erro Desconhecido no carregamento de Pessoas !!!!", ex.Message, "OK");
+            await DisplayAlert("Erro Desconhecido no carregamento de Enfermeiros !!!!", ex.Message, "OK");
         }
         finally
         {
-            lstPessoas.IsRefreshing = false;
+            lstEnfermeiros.IsRefreshing = false;
         }
     }
 }

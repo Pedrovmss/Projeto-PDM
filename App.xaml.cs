@@ -1,7 +1,7 @@
-﻿using appClassePessoaBD.DAL;
-using appClassePessoaBD.Views;
+using appProvaA1Enfermeiro.DAL;
+using appProvaA1Enfermeiro.Views;
 
-namespace appClassePessoaBD
+namespace appProvaA1Enfermeiro
 {
     public partial class App : Application
     {
@@ -35,7 +35,7 @@ namespace appClassePessoaBD
                      */
                     string path = Path.Combine(
                         Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-                        "pessoas.db3"
+                        "enfermeiros.db3"
                     );
 
                     /*
@@ -52,8 +52,8 @@ namespace appClassePessoaBD
             /* Habilitando o recurso de navegação entre páginas e definindo a página
              * de listagem (dentro da pasta Views) como a tela inicial do App.*/
             //Fazendo a chamada a nossa tela inicial, e instanciamos um objeto do tipo
-            //NavigationPage, que vai receber um novo objeto do tipo TelaListaPessoa, para renderizar a tela 
-            MainPage = new NavigationPage(new TelaListaPessoa());
+            //NavigationPage, que vai receber um novo objeto do tipo TelaListaEnfermeiro, para renderizar a tela 
+            MainPage = new NavigationPage(new TelaListaEnfermeiro());
         }
     }
 }

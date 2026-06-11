@@ -1,7 +1,7 @@
-﻿using Android.App;
+using Android.App;
 using Android.Runtime;
 
-namespace appClassePessoaBD
+namespace appProvaA1Enfermeiro
 {
     [Application]
     public class MainApplication : MauiApplication

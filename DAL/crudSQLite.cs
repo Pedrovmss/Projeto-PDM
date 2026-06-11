@@ -1,13 +1,13 @@
-﻿/*
+/*
  * Arquivo Model para criação da Tabela e Transporte de Dados
  */
-using appClassePessoaBD.Model;
+using appProvaA1Enfermeiro.Model;
 /*
  * Classes da Biblioteca do SQLite para acesso aos dados e criação da estrutura da tabela.
  */
 using SQLite;
 
-namespace appClassePessoaBD.DAL
+namespace appProvaA1Enfermeiro.DAL
 {
     /*
      * Definição da classe crudSQLite que funciona como uma abstração de acesso ao arquivo db3 do SQLite. A classe contém as informações de "conexão" e os métodos para realizar o CRUD (Create,
@@ -21,7 +21,7 @@ namespace appClassePessoaBD.DAL
          * Campo da classe que armazena a "conexão" com o arquivo db3.
          * Isso significa que o arquivo db3 é aberto e armazenado aqui para que
          * essa classe possa usar os métodos da classe do SQLite para gravar
-         * e ler dados das pessoas cadastradas.
+         * e ler dados das enfermeiros cadastradas.
          */
         readonly SQLiteAsyncConnection _conexao;
         /*
@@ -37,21 +37,21 @@ namespace appClassePessoaBD.DAL
             _conexao = new SQLiteAsyncConnection(path);
 
             /*
-             * Criação da tabela com base no Model Pessoa (mais detalhes no arquivo Pessoa.cs na pasta Model)
+             * Criação da tabela com base no Model Enfermeiro (mais detalhes no arquivo Enfermeiro.cs na pasta Model)
              * Note que apesar do Async na criação da tabela é chamado o método Wait() que define a espera
              * da criação da tabela (se ela ainda não existir) antes de efetuar as outras operações, por exemplo,
              * insert.
              */
-            _conexao.CreateTableAsync<Pessoa>().Wait();
+            _conexao.CreateTableAsync<Enfermeiro>().Wait();
         }
         /*
          * Método que faz a inserção de um novo registro na tabela. Veja que o método recebe uma Model
          * preenchida com os dados a serem inseridos. Observem que o método tem um retorno do tipo int 
          * (número de linhas inseridas) sendo executado via Task (tarefa sendo executada de forma assíncrona).
          */
-        public Task<int> Insert(Pessoa pessoa1)
+        public Task<int> Insert(Enfermeiro enfermeiro1)
         {
-            return _conexao.InsertAsync(pessoa1);
+            return _conexao.InsertAsync(enfermeiro1);
         }
         /*
          * Método implementado com uso da estratégia de escrever o código SQL. Neste método podemos
@@ -59,39 +59,39 @@ namespace appClassePessoaBD.DAL
          * arquivo db3. O método também recebe uma model preenchida para atualizar no db3 e o retorno
          * em forma de Task é uma lista de todos os registros atualizados.
          */
-        public Task<List<Pessoa>> Update(Pessoa pessoa1)
+        public Task<List<Enfermeiro>> Update(Enfermeiro enfermeiro1)
         {
-            string sql = "UPDATE Pessoa SET pesNome=?, pesIdade=? WHERE pesID=? ";
-            return _conexao.QueryAsync<Pessoa>(sql, pessoa1.pesNome, pessoa1.pesIdade, pessoa1.pesID);
+            string sql = "UPDATE Enfermeiro SET enfNome=?, enfEspecialidade=? WHERE enfID=? ";
+            return _conexao.QueryAsync<Enfermeiro>(sql, enfermeiro1.enfNome, enfermeiro1.enfEspecialidade, enfermeiro1.enfID);
         }
         /*
          * Método que faz o retorno de todas as linhas contidas no arquivo db3 referentes 
-         * a tabela Pessoa. Veja que o método executa a listagem de forma assíncrona.
+         * a tabela Enfermeiro. Veja que o método executa a listagem de forma assíncrona.
          */
-        public Task<List<Pessoa>> GetAll()
+        public Task<List<Enfermeiro>> GetAll()
         {
-            return _conexao.Table<Pessoa>().ToListAsync();
+            return _conexao.Table<Enfermeiro>().ToListAsync();
         }
         /*
          * Método que remove um registro do arquivo db3 de forma assíncrona. Este método recebe
-         * como parâmetro o campo pesID do registro a ser removido. Observe o uso da LINQ no processo de
+         * como parâmetro o campo enfID do registro a ser removido. Observe o uso da LINQ no processo de
          * remoção.
          */
         public Task<int> Delete(int idPes)
         {
-            return _conexao.Table<Pessoa>().DeleteAsync(i => i.pesID == idPes);
+            return _conexao.Table<Enfermeiro>().DeleteAsync(i => i.enfID == idPes);
         }
         /*
          * Método para realizar uma busca na tabela com base em uma string. O método recebe um
          * parâmetro do tipo string e por meio do SQL faz uma busca em um determinado campo
-         * É retornada uma Lista de Pessoas por meio de uma Task. A execução do SQL segue a mesma
+         * É retornada uma Lista de Enfermeiros por meio de uma Task. A execução do SQL segue a mesma
          * linha utilizada no método update.
          */
-        public Task<List<Pessoa>> Search(string buscaPesssoa)
+        public Task<List<Enfermeiro>> Search(string buscaPesssoa)
         {
-            string sql = "SELECT * FROM Pessoa WHERE pesNome LIKE '%" + buscaPesssoa + "%' ";
+            string sql = "SELECT * FROM Enfermeiro WHERE enfNome LIKE '%" + buscaPesssoa + "%' ";
 
-            return _conexao.QueryAsync<Pessoa>(sql);
+            return _conexao.QueryAsync<Enfermeiro>(sql);
         }
     }
 }

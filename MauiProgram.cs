@@ -1,6 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging;
 
-namespace appClassePessoaBD
+namespace appProvaA1Enfermeiro
 {
     public static class MauiProgram
     {

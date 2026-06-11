@@ -1,6 +1,6 @@
-﻿using Foundation;
+using Foundation;
 
-namespace appClassePessoaBD
+namespace appProvaA1Enfermeiro
 {
     [Register("AppDelegate")]
     public class AppDelegate : MauiUIApplicationDelegate
