@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="appClassePessoaBD.Views.TelaListaPessoa"
+             BackgroundImageSource="fundo.png"
+             Title="Lista de Pessoas">
+
+    <!-- Barra de Menu com o método para Incluir uma Nova Pessoa -->
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Incluir" IconImageSource="iconincluirpessoa.png" Clicked="irTelaIncluirPessoa" />
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <StackLayout>
+            <!-- Campo de Busca(Pesquisa) -->
+            <SearchBar x:Name="txtBusca" Margin="-10, 0, 0, 0" Placeholder="Qual a Pessoa?" TextChanged="txtBuscar" />
+            <!-- Limpando a tela quando for feita a pesquisa -->
+            <ListView x:Name="lstPessoas" IsPullToRefreshEnabled="True" Refreshing="refCarregando" ItemSelected="lstPessoasItemSelected">
+                <!-- Criando as colunas da tabela, os cabeçalhos  -->
+                <ListView.Header>
+                    <Grid RowDefinitions="Auto" ColumnDefinitions="*, *, *">
+                        <Label Grid.Row="0" Grid.Column="0" Text="Código(ID)" HorizontalTextAlignment="Center" FontAttributes="Bold" />
+                        <Label Grid.Row="0" Grid.Column="1" Text="Nome" HorizontalTextAlignment="Center" FontAttributes="Bold" />
+                        <Label Grid.Row="0" Grid.Column="2" Text="Idade" HorizontalTextAlignment="Center" FontAttributes="Bold" />
+                    </Grid>
+                </ListView.Header>
+                <!-- Criando as linhas de detalhes, mostra o conteúdo dos atributos da Tabela Pessoa  -->
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <!-- Menu de contexto, método para Excluir uma Pessoa  -->
+                            <ViewCell.ContextActions>
+                                <MenuItem Text="Excluir Pessoa" IconImageSource="iconexcluirpessoa.png" Clicked="excluirPessoa" />
+                            </ViewCell.ContextActions>
+                            <Grid RowDefinitions="Auto" ColumnDefinitions="*, *, *">
+                                <Label Grid.Row="0" Grid.Column="0" Text="{Binding pesID}" HorizontalTextAlignment="Center" FontAttributes="Bold" />
+                                <Label Grid.Row="0" Grid.Column="1" Text="{Binding pesNome}" HorizontalTextAlignment="Center" FontAttributes="Bold" />
+                                <Label Grid.Row="0" Grid.Column="2" Text="{Binding pesIdade}" HorizontalTextAlignment="Center" FontAttributes="Bold" />
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
