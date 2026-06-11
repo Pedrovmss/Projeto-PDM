@@ -2,20 +2,50 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="appProvaA1Enfermeiro.Views.TelaIncluirEnfermeiro"
-             BackgroundImageSource="fundoenfermeiro.png"
              Title="Incluir Enfermeiro">
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Salvar" IconImageSource="salvarenfermeiro.png" Clicked="ToolbarItemClickedSalvar" />
+        <ToolbarItem Text="Salvar"
+                     IconImageSource="salvarenfermeiro.png"
+                     Clicked="ToolbarItemClickedSalvar" />
     </ContentPage.ToolbarItems>
+
     <ContentPage.Content>
-        <StackLayout>
-            <Border Stroke="#30f1b7" Padding="10,5" Margin="4" StrokeShape="RoundRectangle 8,0">
-                <Entry Placeholder="Nome:" x:Name="txtNomeEnfermeiro" FontAttributes="Bold" Margin="4" ClearButtonVisibility="WhileEditing" />
+        <StackLayout Padding="10">
+
+            <!-- Imagem igual à tela de lista -->
+            <Image Source="fundoenfermeiro.png"
+                   HeightRequest="100"
+                   Aspect="AspectFit"
+                   HorizontalOptions="Center"
+                   Margin="0,0,0,10"/>
+
+            <Border Stroke="#30f1b7"
+                    Padding="10,5"
+                    Margin="4"
+                    StrokeShape="RoundRectangle 8,0">
+
+                <Entry Placeholder="Nome:"
+                       x:Name="txtNomeEnfermeiro"
+                       FontAttributes="Bold"
+                       Margin="4"
+                       ClearButtonVisibility="WhileEditing" />
+
             </Border>
-            <Border Stroke="#30f1b7" Padding="10,5" Margin="4" StrokeShape="RoundRectangle 8,0">
-                <Entry Placeholder="Especialidade:" x:Name="txtEspecialidadeEnfermeiro" FontAttributes="Bold" Margin="4" ClearButtonVisibility="WhileEditing" />
+
+            <Border Stroke="#30f1b7"
+                    Padding="10,5"
+                    Margin="4"
+                    StrokeShape="RoundRectangle 8,0">
+
+                <Entry Placeholder="Especialidade:"
+                       x:Name="txtEspecialidadeEnfermeiro"
+                       FontAttributes="Bold"
+                       Margin="4"
+                       ClearButtonVisibility="WhileEditing" />
+
             </Border>
+
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
